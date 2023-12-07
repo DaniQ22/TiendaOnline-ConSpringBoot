@@ -56,6 +56,14 @@
 			<artifactId>argon2-jvm</artifactId>
 			<version>2.11</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openidentityplatform.commons/json-web-token -->
+		<dependency>
+			<groupId>org.openidentityplatform.commons</groupId>
+			<artifactId>json-web-token</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

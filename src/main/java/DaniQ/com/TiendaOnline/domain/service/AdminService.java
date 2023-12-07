@@ -2,6 +2,8 @@ package DaniQ.com.TiendaOnline.domain.service;
 
 import DaniQ.com.TiendaOnline.domain.Admin;
 import DaniQ.com.TiendaOnline.domain.repository.AdminRepository;
+import DaniQ.com.TiendaOnline.domain.util.results.AdminExistsException;
+import DaniQ.com.TiendaOnline.domain.util.results.MensaggeException;
 import DaniQ.com.TiendaOnline.domain.util.validation.AdminValidation;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
@@ -23,11 +25,17 @@ public class AdminService implements AdminServiceInter {
     public Admin saveAdmin(Admin admin) {
         Optional<Admin> ad = getAdminById(admin.getAdminId());
         if (ad.isPresent()){
-            return null;
+            throw new AdminExistsException("El admin con Id " + admin.getAdminId() + " ya existe");
         }
 
         if (!AdminValidation.validateSave(admin)) {
-            return null;
+            throw new AdminExistsException("Error en la validacion " +
+                    "Ten en cuenta los sisguiente para registar un Admin: " +
+                    "1. El campo Id no debe estar vacido" +
+                    "2. Escribe un nombre y un apellido" +
+                    "3. Tu nombre de usuario debe tener una letra Mayuscula" +
+                    "4. Tu contraseña debe tener una letra mayuscula, debe tener un caracter " +
+                    "especial y debe se mayor a 8 ");
         }
         Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
         String hash = argon2.hash(1, 1024, 1, admin.getPassword());
@@ -36,8 +44,13 @@ public class AdminService implements AdminServiceInter {
     }
 
     @Override
-    public boolean deleteAdmin(String adminId) {
-        return false;
+    public void deleteAdmin(String adminId) {
+        Optional<Admin> adminToDelete = getAdminById(adminId);
+
+        if (adminToDelete.isEmpty()) {
+            throw new MensaggeException("Error, el Admin no existe");
+        }
+        adminRepository.deleteAdmin(adminId);
     }
 
     @Override

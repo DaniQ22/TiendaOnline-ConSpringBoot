@@ -15,7 +15,6 @@ public class AdminValidation {
         if (admin.getUserName().equals("") ||
                 admin.getUserName().length()<3 ||
                 admin.getUserName().length() >20 ||
-                admin.getUserName().contains(cadenaCaracter) ||
                 !admin.getUserName().matches(".*[A-Z].*")) {
             return false;
         }

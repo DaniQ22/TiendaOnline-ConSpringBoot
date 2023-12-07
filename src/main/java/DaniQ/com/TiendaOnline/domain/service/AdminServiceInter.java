@@ -9,7 +9,7 @@ public interface AdminServiceInter {
 
     Admin saveAdmin (Admin admin);
 
-    boolean deleteAdmin(String adminId);
+    void deleteAdmin(String adminId);
 
     Optional<Admin> getAdminById(String adminId);
 
