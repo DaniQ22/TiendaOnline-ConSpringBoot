@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AdminServiceInter {
 
-    String saveAdmin (Admin admin);
+    Admin saveAdmin (Admin admin);
 
     boolean deleteAdmin(String adminId);
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class AdminService implements AdminRepositoryInter {
+public class AdminService implements AdminServiceInter {
     private final AdminRepository adminRepository;
 
     @Autowired
@@ -20,6 +20,11 @@ public class AdminService implements AdminRepositoryInter {
 
     @Override
     public Admin saveAdmin(Admin admin) {
+        Optional<Admin> ad = getAdminById(admin.getAdminId());
+        if (ad.isPresent()){
+            return null;
+        }
+
         if (!AdminValidation.validateSave(admin)) {
             return null;
         }
@@ -27,8 +32,8 @@ public class AdminService implements AdminRepositoryInter {
     }
 
     @Override
-    public void deleteAdmin(String adminId) {
-
+    public boolean deleteAdmin(String adminId) {
+        return false;
     }
 
     @Override

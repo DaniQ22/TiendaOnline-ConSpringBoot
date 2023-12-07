@@ -11,4 +11,6 @@ public interface AdminRepositoryInter {
     void deleteAdmin(String adminId);
 
     Optional<Admin> getAdminById(String adminId);
+
+    Admin getAdminByUsernme(Admin admin);
 }

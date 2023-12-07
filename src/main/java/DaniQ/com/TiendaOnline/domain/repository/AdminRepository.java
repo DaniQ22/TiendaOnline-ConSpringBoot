@@ -40,4 +40,14 @@ public class AdminRepository implements AdminRepositoryInter{
          Optional<Administrador> administrador = crudAdministrador.findById(adminId);
          return administrador.map(mapper::toAdmin);
     }
+
+    @Override
+    public Admin getAdminByUsernme(Admin admin) {
+        Administrador administrador = mapper.toAdministrador(admin);
+        Admin adminExisting = mapper.toAdmin(crudAdministrador.getAdminByUsername(administrador.getNombreUsuario()));
+        if (adminExisting == null){
+            return null;
+        }
+        return adminExisting;
+    }
 }
