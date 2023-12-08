@@ -61,8 +61,8 @@ public class AdminService implements AdminServiceInter {
     //Este metodo me permite buscar un admin por credenciales en este caso por el nombre de usuario
     //Si el ususario este presente comparo las contraseña ingresada con la almacenada en la base de datos
     @Override
-    public Optional<Admin> getAdminByUserName(String userName) {
-        Optional<Admin> admin = adminRepository.getAdminByUsernme(userName);
+    public Optional<Admin> getAdminCredentials(String adminId) {
+        Optional<Admin> admin = getAdminCredentials(adminId);
         if (admin.isPresent()){
             String passwordHashed = admin.get().getPassword();
             Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
