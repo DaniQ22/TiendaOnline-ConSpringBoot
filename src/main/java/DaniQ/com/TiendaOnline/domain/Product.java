@@ -1,5 +1,7 @@
 package DaniQ.com.TiendaOnline.domain;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+
 public class Product {
 
     private String productId;
@@ -12,9 +14,38 @@ public class Product {
 
     private boolean available;
 
+    private Integer categoryId;
+
+    private String adminId;
+
+
     private Category category;
 
     private Admin admin;
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public String getProductId() {
         return productId;
@@ -56,13 +87,6 @@ public class Product {
         this.available = available;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     public Admin getAdmin() {
         return admin;

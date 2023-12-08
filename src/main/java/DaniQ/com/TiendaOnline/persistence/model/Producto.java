@@ -20,16 +20,43 @@ public class Producto {
 
     private Boolean disponible;
 
+    @Column(name = "id_cat")
+    private Integer idCategoria;
+
+    @Column(name = "id_admin")
+    private String idAdmin;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cat", insertable = false, updatable = false)
+    private Categoria categoria;
 
     @ManyToOne
     @JoinColumn(name = "id_admin", insertable = false, updatable = false)
     private Administrador administrador;
 
-    @ManyToOne
-    @JoinColumn(name = "id_categoria", insertable = false, updatable = false)
-    private Categoria categoria;
+    public String getIdAdmin() {
+        return idAdmin;
+    }
 
+    public void setIdAdmin(String idAdmin) {
+        this.idAdmin = idAdmin;
+    }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Integer getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Integer idCategoria) {
+        this.idCategoria = idCategoria;
+    }
 
     public String getIdProducto() {
         return idProducto;
@@ -71,13 +98,6 @@ public class Producto {
         this.disponible = disponible;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
 
     public Administrador getAdministrador() {
         return administrador;
