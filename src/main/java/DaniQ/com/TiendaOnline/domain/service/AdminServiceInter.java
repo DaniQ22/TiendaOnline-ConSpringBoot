@@ -13,6 +13,7 @@ public interface AdminServiceInter {
 
     Optional<Admin> getAdminById(String adminId);
 
-    Optional<Admin> getAdminCredentials(String adminId);
+    Optional<Admin> getAdminCredentials(Admin admin);
 
+    String loginAdmin(Admin admin);
 }

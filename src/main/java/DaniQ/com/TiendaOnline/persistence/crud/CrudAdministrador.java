@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface CrudAdministrador extends CrudRepository<Administrador, String> {
 
     @Query(value = "SELECT * FROM administrador ad WHERE ad.nombre_usuario = :nombreUsuario", nativeQuery = true)
-    Optional<Administrador> getAdminByUsername(@Param("nombreUsuario") String nombreUsuario);
+    Optional<Administrador> getAdminByUsername(String nombreUsuario);
 
 }

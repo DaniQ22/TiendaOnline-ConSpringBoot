@@ -12,5 +12,5 @@ public interface AdminRepositoryInter {
 
     Optional<Admin> getAdminById(String adminId);
 
-    Optional<Admin> getAdminByUsernme(String userName);
+    Optional<Admin> getAdminByUsernme(Admin admin);
 }

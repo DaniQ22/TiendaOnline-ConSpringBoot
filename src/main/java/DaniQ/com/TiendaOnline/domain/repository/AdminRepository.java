@@ -42,8 +42,8 @@ public class AdminRepository implements AdminRepositoryInter{
     }
 
     @Override
-    public  Optional<Admin> getAdminByUsernme(String userName) {
-        Optional<Administrador> administrador = crudAdministrador.getAdminByUsername(userName);
+    public  Optional<Admin> getAdminByUsernme(Admin admin) {
+        Optional<Administrador> administrador = crudAdministrador.getAdminByUsername(admin.getUserName());
         return administrador.map(mapper::toAdmin);
     }
 }
