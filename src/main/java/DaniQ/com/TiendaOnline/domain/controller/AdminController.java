@@ -5,7 +5,6 @@ import DaniQ.com.TiendaOnline.domain.service.AdminService;
 import DaniQ.com.TiendaOnline.domain.util.results.AdminExistsException;
 import DaniQ.com.TiendaOnline.domain.util.results.MensaggeException;
 import DaniQ.com.TiendaOnline.domain.util.webToken.JWTtoken;
-import org.aspectj.weaver.patterns.IToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +20,12 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    private final JWTtoken jToken;
+
     @Autowired
-    public AdminController(AdminService adminService, JWTtoken token) {
+    public AdminController(AdminService adminService, JWTtoken jToken) {
         this.adminService = adminService;
+        this.jToken = jToken;
     }
 
     @PostMapping("/api/admin")

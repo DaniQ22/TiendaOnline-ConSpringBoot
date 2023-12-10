@@ -8,27 +8,21 @@ import DaniQ.com.TiendaOnline.domain.util.validation.AdminValidation;
 import DaniQ.com.TiendaOnline.domain.util.webToken.JWTtoken;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.crypto.SecretKey;
 import java.util.Optional;
 
 @Service
 public class AdminService implements AdminServiceInter {
     private final AdminRepository adminRepository;
-    private final JWTtoken token;
+    private final JWTtoken jToken;
 
 
     @Autowired
-    public AdminService(AdminRepository adminRepository, JWTtoken token) {
+    public AdminService(AdminRepository adminRepository, JWTtoken token, JWTtoken jToken) {
         this.adminRepository = adminRepository;
-        this.token = token;
+        this.jToken = jToken;
     }
 
     @Override
@@ -90,8 +84,8 @@ public class AdminService implements AdminServiceInter {
     public String loginAdmin(Admin admin){
         Optional<Admin> optionalAdmin = getAdminCredentials(admin);
         if (optionalAdmin.isPresent()){
-            Admin validAdmin = optionalAdmin.get();
-            return token.create(String.valueOf(validAdmin.getAdminId()), validAdmin.getUserName());
+            String token = jToken.generateToken(String.valueOf(admin.getAdminId()), admin.getUserName());
+            return token;
         }
         throw new MensaggeException("Credenciales de administrador inválidas");
 

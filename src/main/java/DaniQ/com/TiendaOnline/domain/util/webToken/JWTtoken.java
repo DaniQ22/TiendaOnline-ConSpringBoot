@@ -1,11 +1,11 @@
 package DaniQ.com.TiendaOnline.domain.util.webToken;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,71 +18,38 @@ import java.util.Date;
 
 @Component
 public class JWTtoken {
-    @Value("${security.jwt.secret}")
-    private String key;
 
-    @Value("${security.jwt.issuer}")
-    private String issuer;
+    @Value("${jwt.expiration}")
+    private long expirationTime;
 
-    @Value("${security.jwt.ttlMillis}")
-    private long ttlMillis;
+    private Key key;
 
-    private final Logger log = LoggerFactory.getLogger(JWTtoken.class);
+    @PostConstruct
+    protected void init() {
+        // Genera una clave segura para HMAC-SHA256
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    }
 
-    /**
-     * Create a new token.
-     *
-     * @param id
-     * @param subject
-     * @return
-     */
-    public String create(String id, String subject) {
+    public String generateToken(String userId, String username) {
+        Date now = new Date();
+        Date expirationDate = new Date(now.getTime() + expirationTime);
 
-        // Use Keys.secretKeyFor to generate a secure key
-        Key signingKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("userId", userId)
+                .setIssuedAt(now)
+                .setExpiration(expirationDate)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
 
-        long nowMillis = System.currentTimeMillis();
-        Date now = new Date(nowMillis);
-
-        // Set the JWT Claims
-        JwtBuilder builder = Jwts.builder().setId(id).setIssuedAt(now).setSubject(subject).setIssuer(issuer)
-                .signWith(signingKey);
-
-        if (ttlMillis >= 0) {
-            long expMillis = nowMillis + ttlMillis;
-            Date exp = new Date(expMillis);
-            builder.setExpiration(exp);
+    public Claims validateToken(String token) {
+        try {
+            // Este método lanzará una excepción si la validación falla
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        } catch (Exception e) {
+            // Manejar la excepción según tus necesidades (puede imprimir un mensaje de error, registrar, etc.)
+            throw new RuntimeException("Error al validar el token", e);
         }
-
-        // Builds the JWT and serializes it to a compact, URL-safe string
-        return builder.compact();
-    }
-
-    /**
-     * Method to validate and read the JWT
-     *
-     * @param jwt
-     * @return
-     */
-    public String getValue(String jwt) {
-        // This line will throw an exception if it is not a signed JWS (as expected)
-        Claims claims = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(Base64.getDecoder().decode(key)))
-                .parseClaimsJws(jwt).getBody();
-
-        return claims.getSubject();
-    }
-
-    /**
-     * Method to validate and read the JWT
-     *
-     * @param jwt
-     * @return
-     */
-    public String getKey(String jwt) {
-        // This line will throw an exception if it is not a signed JWS (as expected)
-        Claims claims = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(Base64.getDecoder().decode(key)))
-                .parseClaimsJws(jwt).getBody();
-
-        return claims.getId();
     }
 }
