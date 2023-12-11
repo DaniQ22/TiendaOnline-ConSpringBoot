@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProductRepository implements ProductRepositoryInter{
@@ -32,5 +33,11 @@ public class ProductRepository implements ProductRepositoryInter{
     public List<Product> getAll() {
         List<Producto> productos = (List<Producto>) crudProducto.findAll();
         return mapper.toProducts(productos);
+    }
+
+    @Override
+    public Optional<Product> getProductoById(String productId) {
+        Optional<Producto> optionalProducto = crudProducto.findById(productId);
+        return optionalProducto.map(mapper::toProduct);
     }
 }

@@ -32,15 +32,11 @@ public class ProductService implements ProductServiceInter{
     @Override
     public Product saveProduct(Product product) {
         Optional<Category> optionalCategory = categoryRepository.getById(product.getCategoryId());
-        Optional<Admin> admin = adminRepository.getAdminById(product.getAdminId());
 
         if (optionalCategory.isEmpty()){
             throw new MensaggeException("La categoria no existe");
         }
 
-        if (admin.isEmpty()) {
-            throw new MensaggeException("El admin no existe");
-        }
 
         Product productToSave = product;
         if (!ProductValidation.ValidationNameProduct(productToSave.getProductName())){
@@ -66,4 +62,6 @@ public class ProductService implements ProductServiceInter{
     public List<Product> getAll() {
         return productRepository.getAll();
     }
+
+
 }

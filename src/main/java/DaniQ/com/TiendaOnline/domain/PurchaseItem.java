@@ -4,9 +4,11 @@ public class PurchaseItem {
 
     private String productId;
 
+
     private int quantyItem;
 
     private double totaPrice;
+
 
     public String getProductId() {
         return productId;

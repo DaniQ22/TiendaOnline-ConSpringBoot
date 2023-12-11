@@ -6,12 +6,6 @@ import DaniQ.com.TiendaOnline.domain.repository.CategoryRepository;
 public class ProductValidation {
 
 
-    private static CategoryRepository categoryRepository;
-
-    public ProductValidation(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
     public static boolean  ValidationNameProduct(String productName){
         if (productName.isEmpty() || productName.isBlank()){
             return false;

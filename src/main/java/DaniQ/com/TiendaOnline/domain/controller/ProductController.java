@@ -38,6 +38,7 @@ public class ProductController {
 
     @PostMapping("/api/product")
     public ResponseEntity<String> saveProduct(@RequestHeader(value = "Authorization") String token, @RequestBody Product product){
+
         logger.info("Token recibido en la solicitud: {}", token);
         try {
             //Aqui traigo las credenciales del admin que creo el token
@@ -52,7 +53,8 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.CREATED).body("Producto creado");
 
         }catch (MensaggeException e){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Verifica tus credenciales, " +
+                    "no tienes acceso a esta ruta");
         }
     }
 

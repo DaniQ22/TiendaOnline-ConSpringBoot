@@ -8,9 +8,29 @@ public class Purchase {
 
     private LocalDateTime purchaseDate;
 
+    private String customerId;
+
+    private String dateailPurchase;
+
     private List<PurchaseItem> items;
 
     private Customer customer;
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getDateailPurchase() {
+        return dateailPurchase;
+    }
+
+    public void setDateailPurchase(String dateailPurchase) {
+        this.dateailPurchase = dateailPurchase;
+    }
 
     public int getPurchaseId() {
         return purchaseId;

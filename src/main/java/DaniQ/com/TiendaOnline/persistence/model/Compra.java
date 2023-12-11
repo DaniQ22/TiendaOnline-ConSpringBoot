@@ -11,21 +11,42 @@ import java.util.Locale;
 public class Compra {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_compra")
     private Integer idCompra;
+
+    @Column(name = "id_cliente")
+    private String idCliente;
+
+    @Column(name = "detalle_compra")
+    private String detallesCompra;
 
 
     @Column(name = "fecha_compra")
     private LocalDateTime fechaCompra;
 
-    @OneToMany
-    @JoinColumn(name = "compra")
+    @OneToMany(mappedBy = "compra", cascade = {CascadeType.ALL})
     private List<CompraProducto> productos;
 
     @ManyToOne
-    @JoinColumn(name = "id_dni")
+    @JoinColumn(name = "id_cliente", insertable = false, updatable = false)
     private Cliente cliente;
 
+    public String getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public String getDetallesCompra() {
+        return detallesCompra;
+    }
+
+    public void setDetallesCompra(String detallesCompra) {
+        this.detallesCompra = detallesCompra;
+    }
 
     public Integer getIdCompra() {
         return idCompra;

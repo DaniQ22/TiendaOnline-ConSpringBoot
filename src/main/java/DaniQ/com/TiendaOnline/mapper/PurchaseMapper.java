@@ -10,14 +10,17 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {PurchaseItem.class, CustomerMapper.class})
+@Mapper(componentModel = "spring", uses = {PurchaseItemMapper.class, CustomerMapper.class})
 public interface PurchaseMapper {
 
     @Mappings({
             @Mapping(source = "idCompra", target ="purchaseId"),
             @Mapping(source = "fechaCompra", target ="purchaseDate"),
             @Mapping(source = "productos", target ="items"),
-            @Mapping(source = "cliente", target ="customer")
+            @Mapping(source = "cliente", target ="customer"),
+            @Mapping(source = "idCliente", target ="customerId"),
+            @Mapping(source = "detallesCompra", target ="dateailPurchase"),
+
     })
     Purchase tOPurchase(Compra compra);
     List<Purchase> toPurchases(List<Compra> compras);

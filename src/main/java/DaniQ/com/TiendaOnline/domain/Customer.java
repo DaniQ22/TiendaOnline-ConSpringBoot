@@ -1,5 +1,7 @@
 package DaniQ.com.TiendaOnline.domain;
 
+import java.util.List;
+
 public class Customer {
 
     private String customerDni;
@@ -11,6 +13,7 @@ public class Customer {
     private String email;
 
     private String phone;
+
 
     public String getCustomerDni() {
         return customerDni;
