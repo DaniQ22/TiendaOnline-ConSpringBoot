@@ -12,4 +12,5 @@ public interface ProductRepositoryInter {
     List<Product> getAll();
 
     Optional<Product> getProductoById(String productId);
+
 }

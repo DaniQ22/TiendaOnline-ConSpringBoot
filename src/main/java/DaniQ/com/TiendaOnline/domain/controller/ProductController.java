@@ -52,7 +52,7 @@ public class ProductController {
             productService.saveProduct(product);
             return ResponseEntity.status(HttpStatus.CREATED).body("Producto creado");
 
-        }catch (MensaggeException e){
+        }catch (Exception e){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Verifica tus credenciales, " +
                     "no tienes acceso a esta ruta");
         }

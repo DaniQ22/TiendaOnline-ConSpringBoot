@@ -8,7 +8,7 @@ public class AdminValidation {
 
     public static Boolean validateSave(Admin admin){
 
-        if (admin.getAdminId().isEmpty()){
+        if (admin.getAdminId().isEmpty() || admin.getAdminId()==null){
             return false;
         }
 

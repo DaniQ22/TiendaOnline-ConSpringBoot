@@ -20,7 +20,7 @@ public class AdminService implements AdminServiceInter {
 
 
     @Autowired
-    public AdminService(AdminRepository adminRepository, JWTtoken token, JWTtoken jToken) {
+    public AdminService(AdminRepository adminRepository, JWTtoken jToken) {
         this.adminRepository = adminRepository;
         this.jToken = jToken;
     }
@@ -31,7 +31,6 @@ public class AdminService implements AdminServiceInter {
         if (ad.isPresent()){
             throw new AdminExistsException("El admin con Id " + admin.getAdminId() + " ya existe");
         }
-
         if (!AdminValidation.validateSave(admin)) {
             throw new AdminExistsException("Error en la validacion " +
                     "Ten en cuenta los sisguiente para registar un Admin: " +
@@ -61,7 +60,6 @@ public class AdminService implements AdminServiceInter {
     public Optional<Admin> getAdminById(String adminId) {
         return adminRepository.getAdminById(adminId);
     }
-
 
     //Este metodo me permite buscar un admin por credenciales en este caso por el nombre de usuario
     //Si el ususario este presente comparo las contraseña ingresada con la almacenada en la base de datos

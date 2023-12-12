@@ -27,8 +27,6 @@ public class AdminRepository implements AdminRepositoryInter{
         return mapper.toAdmin(crudAdministrador.save(administrador));
     }
 
-
-
     @Override
     public void deleteAdmin(String adminId) {
         crudAdministrador.deleteById(adminId);

@@ -46,6 +46,6 @@ public class CategoryRepository implements CategoryRepositoryInter{
     @Override
     public Optional<Category> getById(Integer categoryId) {
         Optional<Categoria> categoria = crudCategoria.findById(categoryId);
-        return categoria.map(cat -> mapper.toCategory(cat));
+        return categoria.map(mapper::toCategory);
     }
 }

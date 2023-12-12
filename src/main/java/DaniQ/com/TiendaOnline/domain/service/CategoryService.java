@@ -34,13 +34,10 @@ public class CategoryService implements CategoryServiceInter{
     @Override
     public void deleteCategory(Integer categoryId) {
         Optional<Category> categoryToDelete = getById(categoryId);
-        if (categoryToDelete.isPresent()){
-            categoryRepository.deleteCategory(categoryId);
-            throw new MensaggeException("Categoria eliminada");
-        }else{
+        if (categoryToDelete.isEmpty()){
             throw new MensaggeException("Categoria no encontrada");
         }
-
+        categoryRepository.deleteCategory(categoryId);
     }
 
     @Override
@@ -52,7 +49,7 @@ public class CategoryService implements CategoryServiceInter{
     public Optional<Category> getById(Integer categoryId) {
         Optional<Category> category = categoryRepository.getById(categoryId);
         if (category.isPresent()){
-            throw new MensaggeException("Categoria encontrada " + category);
+            throw new MensaggeException("Categoria encontrada");
         }else {
             throw new MensaggeException("La categoria no existe");
         }
