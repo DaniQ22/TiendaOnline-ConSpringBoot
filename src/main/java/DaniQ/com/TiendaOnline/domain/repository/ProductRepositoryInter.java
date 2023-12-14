@@ -9,8 +9,12 @@ public interface ProductRepositoryInter {
 
     Product saveProduct(Product product);
 
-    List<Product> getAll();
+    List<Product> getAll(boolean available);
 
     Optional<Product> getProductoById(String productId);
+
+    void deleteProduct(String ProductId);
+
+
 
 }

@@ -12,5 +12,11 @@ public interface ProductServiceInter {
 
     List<Product> getAll();
 
+    void deleteProduct(String productId);
+
+    Optional<Product> getProductById(String productId);
+
+    Product updateProduct(Product product);
+
 
 }

@@ -30,15 +30,21 @@ public class ProductRepository implements ProductRepositoryInter{
     }
 
     @Override
-    public List<Product> getAll() {
-        List<Producto> productos = (List<Producto>) crudProducto.findAll();
+    public List<Product> getAll(boolean available) {
+        List<Producto> productos = crudProducto.getAllProduct(true);
         return mapper.toProducts(productos);
     }
+
 
     @Override
     public Optional<Product> getProductoById(String productId) {
         Optional<Producto> optionalProducto = crudProducto.findById(productId);
         return optionalProducto.map(mapper::toProduct);
+    }
+
+    @Override
+    public void deleteProduct(String productId) {
+        crudProducto.deleteById(productId);
     }
 
 }

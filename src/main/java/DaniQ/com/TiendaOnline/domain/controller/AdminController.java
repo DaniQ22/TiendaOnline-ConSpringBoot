@@ -3,11 +3,13 @@ package DaniQ.com.TiendaOnline.domain.controller;
 import DaniQ.com.TiendaOnline.domain.Admin;
 import DaniQ.com.TiendaOnline.domain.service.AdminService;
 import DaniQ.com.TiendaOnline.domain.util.results.AdminExistsException;
+import DaniQ.com.TiendaOnline.domain.util.results.CustomMessage;
 import DaniQ.com.TiendaOnline.domain.util.results.MensaggeException;
 import DaniQ.com.TiendaOnline.domain.util.webToken.JWTtoken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("Admi")
+@RequestMapping("Admin")
 public class AdminController {
 
     private final AdminService adminService;
@@ -33,12 +35,15 @@ public class AdminController {
     }
 
     @PostMapping("/api/admin")
-    public ResponseEntity<String> saveAdmin(@RequestBody Admin admin){
-        try{
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<CustomMessage> saveAdmin(@RequestBody Admin admin){
+        try {
             Admin adminSaved = adminService.saveAdmin(admin);
-            return ResponseEntity.status(HttpStatus.CREATED).body("El admin ha sido creado correctamente" + adminSaved);
-        }catch (AdminExistsException e){
-            return  ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            CustomMessage response = new CustomMessage("El admin ha sido creado correctamente: " + adminSaved);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (MensaggeException e) {
+            CustomMessage response = new CustomMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
     }
 
@@ -59,20 +64,17 @@ public class AdminController {
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<?> loginAdmin(@RequestBody Admin admin){
-
-        Map<String, String> response = new HashMap<>();
-
+    @CrossOrigin("http://localhost:4200")
+    public ResponseEntity<String> loginAdmin(@RequestBody Admin admin) {
         try {
             String token = adminService.loginAdmin(admin);
-            response.put("token", token);
-            response.put("menssage", "Usuario logueado correctamente!");
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        }catch (MensaggeException e){
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Authorization", "Bearer " + token); // Ajusta según el esquema de tu token
+            return ResponseEntity.status(HttpStatus.OK).headers(headers).body("Login Correcto");
+        } catch (MensaggeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
-
 
     @DeleteMapping("/api/admin/{adminId}")
     public ResponseEntity<?> deleteAdmin(@RequestHeader(value = "Authorization") String token,

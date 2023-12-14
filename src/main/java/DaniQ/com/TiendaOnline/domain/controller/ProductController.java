@@ -37,7 +37,7 @@ public class ProductController {
 
 
     @PostMapping("/api/product")
-    public ResponseEntity<String> saveProduct(@RequestHeader(value = "Authorization") String token, @RequestBody Product product){
+    public ResponseEntity<?> saveProduct(@RequestHeader(value = "Authorization") String token, @RequestBody Product product) {
 
         logger.info("Token recibido en la solicitud: {}", token);
         try {
@@ -49,12 +49,17 @@ public class ProductController {
             Admin admin = adminService.getAdminById(adminId)
                     .orElseThrow(() -> new MensaggeException("No se encontró el administrador correspondiente."));
             product.setAdminId(admin.getAdminId());
-            productService.saveProduct(product);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Producto creado");
+            return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.CREATED);
+
+        }catch (MensaggeException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Verifica tus credenciales, " +
-                    "no tienes acceso a esta ruta");
+            if (token == null || token.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verifica tus credenciales, " + "no tienes acceso a esta ruta");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Error al crear el producto");
+            }
         }
     }
 
@@ -66,11 +71,48 @@ public class ProductController {
             List<Product> products = productService.getAll();
             return new ResponseEntity<>(products, HttpStatus.OK);
 
-        }catch (Exception e){
-            logger.error("La validación del token ha fallado para el token: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Error: No tienes permiso para acceder a esta acción. Verifica tu token de autorización.");
+        } catch (Exception e) {
+            if (token == null || token.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verifica tus credenciales, " + "no tienes acceso a esta ruta");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Error al ver los productos");
+            }
+        }
+    }
 
+    @DeleteMapping("/api/product/{productId}")
+    public ResponseEntity<?> deleteProduct(@RequestHeader(value = "Authorization") String token,
+                                           @PathVariable String productId) {
+        try {
+            jwTtoken.validateToken(token);
+            productService.deleteProduct(productId);
+            return ResponseEntity.status(HttpStatus.OK).body("Producto eliminado de la base de datos");
+        } catch (MensaggeException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            if (token == null || token.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verifica tus credenciales, " + "no tienes acceso a esta ruta");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Error al eliminar el producto");
+            }
+        }
+    }
+
+    @PutMapping("/api/product")
+    public ResponseEntity<?> updateProduct(@RequestHeader(value = "Authorization") String token,
+                                           @RequestBody Product product){
+        try {
+            jwTtoken.validateToken(token);
+            productService.updateProduct(product);
+            return ResponseEntity.status(HttpStatus.OK).body("Producto actualizado de la base de datos");
+            }catch (MensaggeException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            if (token == null || token.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verifica tus credenciales, " + "no tienes acceso a esta ruta");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Error al actualizar el producto");
+            }
         }
     }
 }

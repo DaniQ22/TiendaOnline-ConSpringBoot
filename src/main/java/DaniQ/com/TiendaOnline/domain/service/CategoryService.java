@@ -47,12 +47,7 @@ public class CategoryService implements CategoryServiceInter{
 
     @Override
     public Optional<Category> getById(Integer categoryId) {
-        Optional<Category> category = categoryRepository.getById(categoryId);
-        if (category.isPresent()){
-            throw new MensaggeException("Categoria encontrada");
-        }else {
-            throw new MensaggeException("La categoria no existe");
-        }
+        return categoryRepository.getById(categoryId);
     }
 
     @Override

@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+
 @RestController
 @RequestMapping("Category")
 public class CategoryController {
@@ -60,6 +63,20 @@ public class CategoryController {
                         "no tienes acceso a esta ruta");
             } else {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("No se puede eliminar esta categoria");
+            }
+        }
+    }
+
+    @GetMapping("/api/categories")
+    public ResponseEntity<?> getAll(@RequestHeader (value = "Authorization") String token ){
+        try {
+            jwTtoken.validateToken(token);
+            return  new ResponseEntity<>(categoryService.getAll(), HttpStatus.OK);
+        }catch (Exception e){
+            if (token == null || token.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verifica tus credenciales, " + "no tienes acceso a esta ruta");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("No se encuentras categorias");
             }
         }
     }

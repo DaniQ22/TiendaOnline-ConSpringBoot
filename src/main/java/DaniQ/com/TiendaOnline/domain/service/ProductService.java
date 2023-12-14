@@ -60,8 +60,30 @@ public class ProductService implements ProductServiceInter{
 
     @Override
     public List<Product> getAll() {
-        return productRepository.getAll();
+        return productRepository.getAll(true);
     }
 
+    @Override
+    public void deleteProduct(String productId) {
+        Optional<Product> optionalProduct = getProductById(productId);
+        if (optionalProduct.isPresent()){
+            productRepository.deleteProduct(productId);
+        }
+        throw new MensaggeException("El prducto no se ecuentra en la base de datos");
 
+    }
+
+    @Override
+    public Optional<Product> getProductById(String productId) {
+        return productRepository.getProductoById(productId);
+    }
+
+    @Override
+    public Product updateProduct(Product product) {
+        Optional<Product> optionalProduct = getProductById(product.getProductId());
+        if (optionalProduct.isPresent()){
+            productRepository.saveProduct(product);
+        }
+        throw new MensaggeException("El producto no esta registrado");
+    }
 }

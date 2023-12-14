@@ -1,0 +1,58 @@
+Creacion de categorias 
+{
+     "name": "JUEGOS AVENTURA",
+     "description": "Juegos de aventura mundo abierto "
+ }
+
+Creacion de un Admin
+ {
+     "adminId": "1005438555",
+     "fullName": "Daniel Jose Quiñonez Montes",
+     "userName": "Daniquim08",
+     "password": "Daniel*208"
+ }
+
+Creacion de un producto
+{
+    "productName" : "CALL OF DUTY GHOST",
+    "quanty" : 2,
+    "price": 25000,
+    "categoryId" : 1
+}
+
+Creacion de una compra
+{
+    "purchaseId": 1,
+    "items": [
+        {
+            "prodcutId": "5eda7b47-d3ce-4cf5-963b-67a64dd6e5cb",
+            "quantyItem": 3,
+            "totaPrice": 167890
+        }
+    ],
+    "customer": {
+        "customerDni": "123r556",
+        "name": "Manuel Pelaez",
+        "lastName": "Puentes",
+        "email": "Manuel-Pelaez@gmial.com",
+        "phone": "2875344252"
+    }
+}
+
+Creacion de compra
+{
+    "dateailPurchase": "Detalles de la compra...",
+    "items": [
+        {
+          "productId": "9cdaabbc-e7b7-41ac-a5e2-6f27465dec67",
+            "quantyItem": 12
+        }
+    ],
+    "customer": {
+        "customerDni": "837284664",
+        "name": "Eduardo Montes ",
+        "lastName": "Perez masea",
+        "email": "Manuel-Pelaez@gmail.com",
+        "phone": 35674322
+    }
+}

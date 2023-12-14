@@ -9,4 +9,7 @@ import java.util.Optional;
 
 public interface CrudProducto extends CrudRepository<Producto, String> {
 
+
+    @Query(value = "SELECT * FROM producto pro WHERE pro.disponible = :disponible", nativeQuery = true)
+    List<Producto> getAllProduct(boolean disponible);
 }

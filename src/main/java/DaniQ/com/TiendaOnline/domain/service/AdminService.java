@@ -82,8 +82,7 @@ public class AdminService implements AdminServiceInter {
     public String loginAdmin(Admin admin){
         Optional<Admin> optionalAdmin = getAdminCredentials(admin);
         if (optionalAdmin.isPresent()){
-            String token = jToken.generateToken(String.valueOf(optionalAdmin.get().getAdminId()), admin.getUserName());
-            return token;
+            return jToken.generateToken(String.valueOf(optionalAdmin.get().getAdminId()), admin.getUserName());
         }
         throw new MensaggeException("Credenciales de administrador inválidas");
 
